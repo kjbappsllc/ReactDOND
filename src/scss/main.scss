@@ -1,0 +1,139 @@
+@import "colors.scss";
+@import "fonts.scss";
+
+$yellow-border: 6px solid $yellow;
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    height: 100%;
+    font-size: 24px;
+}
+
+body {
+    background-image: 
+    linear-gradient(
+      rgba(0, 0, 0, 0.66), 
+      rgba(0, 0, 0, 0.66)
+    ),
+    url('../resources/images/dond_bg.jpg');
+    background-size: cover;
+    height: 100%;
+}
+
+//Game css
+.game-base {
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    display: flex;
+    @extend .fill-parent;
+}
+
+.gameplay-area {
+    border: $yellow-border;
+    border-radius: 10px;
+    width: 50%;
+    height: 70%;
+    flex-direction: column;
+    display: flex;
+    @extend .position-rel;
+}
+
+.text {
+    &.game-heading-text {
+        font-family: $font-heading;
+        font-size: 2em;
+    }
+}
+
+.game-heading {
+    position: absolute;
+    top: -5.5%;
+    height: 11%;
+    align-self: center;
+    justify-content: center;
+    background-color: $yellow;
+    align-items: center;
+    border-radius: 5px;
+    display: flex;
+    @extend .width-40;
+}
+
+.side-panel {
+    border: $yellow-border;
+    height: 98%;
+    background-color: black;
+    border-radius: 10px;
+    @extend .position-ab;
+    @extend .width-30;
+
+    &.left {
+        left: -20%;
+        top: -5%;
+    }
+    &.right {
+        right: -20%;
+        top: -5%;
+    }
+}
+
+.bottom-panel {
+    width: 140%;
+    background-color: black;
+    border: $yellow-border;
+    bottom: -14.5%;
+    left: -20%;
+    border-radius: 10px;
+    height: 20%;
+    @extend .position-ab;
+}
+
+////Util Classes////
+//Width
+.width-50 {
+    width: 50%;
+}
+.flex-50 {
+    flex: 0.5;
+}
+.width-40 {
+    width: 40%;
+}
+.flex-40 {
+    flex: 0.4;
+}
+.width-35 {
+    width: 35%;
+}
+.flex-35 {
+    flex: 0.35;
+}
+.width-30 {
+    width: 30%;
+}
+.flex-30 {
+    flex: 0.3;
+}
+
+.fill-parent {
+    height: 100%;
+    width: 100%;
+}
+
+.flex {
+    display: flex;
+    align-items: flex-start;
+}
+
+.position-ab {
+    position: absolute;
+}
+
+.position-rel {
+    position: relative;
+}
