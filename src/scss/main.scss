@@ -2,6 +2,7 @@
 @import "fonts.scss";
 
 $yellow-border: 6px solid $yellow;
+$main-game-width: 60%;
 
 * {
     box-sizing: border-box;
@@ -46,6 +47,8 @@ body {
 .game-info-container {
     flex: 0.2;
     width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
 .gameplay-area {
@@ -53,7 +56,7 @@ body {
     border-radius: 10px;
     flex-direction: column;
     display: flex;
-    width: 55%;
+    width: $main-game-width;
 }
 
 .text {
@@ -85,7 +88,8 @@ body {
     background-color: black;
     border: $yellow-border;
     border-radius: 10px;
-    @extend .fill-parent;
+    width: $main-game-width;
+    height: 100%;
 }
 
 ////Utils////
