@@ -9,7 +9,5 @@ import './scss/main.scss';
 const mainStore = store
 const unsubscribe = mainStore.subscribe(() => console.log(store.getState()))
 mainStore.dispatch({type: "Test"})
-console.log(getChosenCase(mainStore.getState()))
-console.log(getUnopenedCases(mainStore.getState()))
 
 ReactDOM.render(<App store={store} />, document.getElementById('root'));

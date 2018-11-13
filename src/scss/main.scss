@@ -28,20 +28,32 @@ body {
 //Game css
 .game-base {
     justify-content: center;
-    align-items: center;
     flex-direction: column;
     display: flex;
+    background-color: red;
+    padding: 25px 50px;
     @extend .fill-parent;
+}
+
+.game-play-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    background-color: green;
+    flex: 0.8;
+}
+
+.game-info-container {
+    flex: 0.2;
+    width: 100%;
 }
 
 .gameplay-area {
     border: $yellow-border;
     border-radius: 10px;
-    width: 50%;
-    height: 70%;
     flex-direction: column;
     display: flex;
-    @extend .position-rel;
+    width: 55%;
 }
 
 .text {
@@ -52,48 +64,31 @@ body {
 }
 
 .game-heading {
-    position: absolute;
-    top: -5.5%;
     height: 11%;
     align-self: center;
     justify-content: center;
     background-color: $yellow;
     align-items: center;
-    border-radius: 5px;
+    border-radius: 0px 0px 10px 10px;
     display: flex;
-    @extend .width-40;
+    @extend .width-50;
 }
 
 .side-panel {
     border: $yellow-border;
-    height: 98%;
     background-color: black;
     border-radius: 10px;
-    @extend .position-ab;
-    @extend .width-30;
-
-    &.left {
-        left: -20%;
-        top: -5%;
-    }
-    &.right {
-        right: -20%;
-        top: -5%;
-    }
+    flex: auto;
 }
 
 .bottom-panel {
-    width: 140%;
     background-color: black;
     border: $yellow-border;
-    bottom: -14.5%;
-    left: -20%;
     border-radius: 10px;
-    height: 20%;
-    @extend .position-ab;
+    @extend .fill-parent;
 }
 
-////Util Classes////
+////Utils////
 //Width
 .width-50 {
     width: 50%;
