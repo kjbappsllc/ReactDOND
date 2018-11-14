@@ -1,5 +1,9 @@
-import { createStore } from 'redux'
-
+import { createStore, applyMiddleware } from 'redux'
+import { createLogicMiddleware } from 'redux-logic';
 import mainReducer from './reducer'
 
-export default createStore(mainReducer)
+const logicMiddleware = createLogicMiddleware([], {});
+const middleware = applyMiddleware(
+    logicMiddleware
+);
+export default createStore(mainReducer, middleware)
