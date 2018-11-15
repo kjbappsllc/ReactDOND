@@ -1,5 +1,5 @@
 
-import {combineReducers} from 'redux'
+import { combineReducers } from 'redux'
 import combos from 'combos'
 import _ from 'lodash'
 
@@ -41,7 +41,7 @@ const createBankerRewards = () => {
 
 }
 
-const Reducer = (initialState, handlers={}) => {
+const Reducer = (initialState, handlers = {}) => {
     return (state = initialState, action) => {
         if (handlers.hasOwnProperty(action.type)) {
             return handlers[action.type](state, action)
@@ -51,20 +51,25 @@ const Reducer = (initialState, handlers={}) => {
     }
 }
 
-const gameActions = {
-
-}
-
 const gameInitalState = {
     rewards: createInitialRewards(),
     chosenCaseId: '',
     openedCases: [],
-    currentRound: 0
+    infoText: 'Please Select Your Case',
+    currentRound: 0,
 }
 
-const game = Reducer(gameInitalState)
-export const getUnopenedCases = state => _.filter(state.game.rewards, (obj) => state.game.openedCases.includes(obj.uuid));
-export const getChosenCase = state => _.find(state.game.rewards, {uuid: state.game.chosenCaseId});
+const game = Reducer(gameInitalState, {
+    'OPEN_CASE': (state, action) => ({ ...state, openedCases: [...state.openedCases, action.payload] }),
+    'INCREASE_ROUND': (state, action) => ({ ...state, currentRound: state.currentRound + 1 }),
+    'CHOSE_PERSONAL_CASE': (state, action) => ({ ...state, chosenCaseId: action.payload, rewards: _.filter(state.rewards, obj => obj.uuid !== action.payload) })
+})
+
+export const getUnopenedCases = state => _.filter(state.game.rewards, (obj) => !state.game.openedCases.includes(obj.uuid));
+export const getPlayableRewards = state =>  _.filter(state.game.rewards, obj => obj.uuid !== state.game.chosenCaseId)
+export const getChosenCase = state => _.find(state.game.rewards, { uuid: state.game.chosenCaseId });
+export const getCurrentRound = state => state.game.currentRound
+export const getInfoText = state => state.game.infoText
 export default combineReducers({
     game
 })

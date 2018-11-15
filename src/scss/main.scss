@@ -2,7 +2,7 @@
 @import "fonts.scss";
 
 $yellow-border: 6px solid $yellow;
-$main-game-width: 65%;
+$main-game-width: 50%;
 
 * {
     box-sizing: border-box;
@@ -32,7 +32,7 @@ body {
     flex-direction: column;
     display: flex;
     background-color: red;
-    padding: 25px 50px;
+    padding: 8vh 8vw;
     @extend .fill-parent;
 }
 
@@ -58,9 +58,52 @@ body {
     width: $main-game-width;
 }
 
+.case-container {
+    background-color: purple;
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+    padding: 1%;
+    justify-content: center;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    overflow: auto;
+
+    .case {
+        display: flex;
+        background-color: orange;
+        width: 15%;
+        height: 17%;
+        margin: 4px;
+        @extend .position-rel;
+
+        &.unopened {
+            cursor: pointer;
+        }
+
+        &.opened {
+            opacity: 0.5;
+        }
+
+        img {
+            width: 100%;
+            object-fit: contain;
+        }
+
+        .case-num {
+            margin-left: auto;
+            margin-right: auto;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -25%);
+            @extend .position-ab;
+        }
+    }
+}
+
 .text {
     &.game-heading-text {
-        font-family: $font-heading;
+        font-family: $font-main;
         font-size: 2em;
     }
 }
@@ -78,20 +121,29 @@ body {
 
 .side-panel {
     background-color: black;
-    border-radius: 10px;
     border: $yellow-border;
     padding: 5px 10px;
-    flex: 1;
+    flex: 0.4;
     display: flex;
     flex-direction: column;
+
+    &.left {
+        border-radius: 10px 0px 0px 10px;
+    }
+
+    &.right {
+        border-radius: 0px 10px 10px 0px;
+    }
 
     div {
         flex: 1;
         background-color: $light-yellow;
         margin: 3px;
-        justify-content: center;
+        padding-right: 10px;
+        justify-content: flex-end;
         align-items: center;
         display: flex;
+        font-size: 1.2em;
     }
 }
 
@@ -101,6 +153,29 @@ body {
     border-radius: 0px 0px 10px 10px;
     width: $main-game-width;
     height: 100%;
+    display: flex;
+
+    .vbar {
+        background-color: $yellow;
+        width: 10px;
+        height: 100%;
+    }
+
+    .chosen-case-container {
+        flex: 0.25;
+        background-color: pink;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+    }
+
+    .game-info-container {
+        flex: 0.75;
+        background-color: blue;
+        flex-direction: column;
+        align-items: center;
+    }
 }
 
 ////Utils////

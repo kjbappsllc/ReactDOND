@@ -7,7 +7,6 @@ import App from './main'
 import './scss/main.scss';
 
 const mainStore = store
-const unsubscribe = mainStore.subscribe(() => console.log(store.getState()))
-mainStore.dispatch({type: "Test"})
+mainStore.subscribe(() => console.log(store.getState()))
 
 ReactDOM.render(<App store={store} />, document.getElementById('root'));
