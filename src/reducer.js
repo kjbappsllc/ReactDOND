@@ -52,7 +52,7 @@ const Reducer = (initialState, handlers = {}) => {
 }
 
 const gameInitalState = {
-    rewards: createInitialRewards(),
+    rewards: _.shuffle(createInitialRewards()),
     chosenCaseId: '',
     openedCases: [],
     infoText: 'Please Select Your Case',

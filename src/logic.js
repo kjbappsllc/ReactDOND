@@ -1,5 +1,6 @@
 import { createLogic } from 'redux-logic';
-import { getOpenedCases, getCurrentRound, getPlayableRewards } from './reducer'
+import { getOpenedCases, getCurrentRound, getPlayableRewards, getChosenCase } from './reducer'
+import _ from 'lodash'
 
 const genCasesToOpenInfoText = num => `Chose ${num} more case(s) to open`
 const roundsSequence = [6, 5, 4, 3, 2, 1, 1, 1, 1, 1]
@@ -9,7 +10,6 @@ const caseClickedLogic = createLogic({
     type: 'CASE_CLICKED',
     process({ getState, action }, dispatch, done) {
         const currentRound = getCurrentRound(getState())
-        let gameover = false
         if (currentRound === 0) {
             dispatch({ type: 'CHOSE_PERSONAL_CASE', payload: action.payload })
             dispatch({ type: 'CHANGE_INFO_TEXT', payload: genCasesToOpenInfoText(roundsSequence[currentRound]) })
@@ -23,8 +23,8 @@ const caseClickedLogic = createLogic({
 
             //Game is over
             if (openedCases - rewardsLen === 0) {
-                dispatch({ type: 'CHANGE_INFO_TEXT', payload: 'GAME OVER' })
-                gameover = true
+                const chosenCase = getChosenCase(getState())
+                dispatch({ type: 'CHANGE_INFO_TEXT', payload: JSON.stringify(chosenCase) })
             }
             //Need To call Banker
             else if (desiredCasesToOpen === 0) {
@@ -33,14 +33,7 @@ const caseClickedLogic = createLogic({
                 dispatch({ type: 'CHANGE_INFO_TEXT', payload: genCasesToOpenInfoText(desiredCasesToOpen) })
             }
         }
-        if (gameover) {
-            setTimeout(() => {
-                dispatch({ type: 'GAME_RESET' })
-                done()
-            }, 2000);
-        } else {
-            done()
-        }
+        done()
     }
 })
 
@@ -53,7 +46,7 @@ const bankerCallLogic = createLogic({
         dispatch({ type: 'INCREASE_ROUND' })
 
         setTimeout(() => {
-            dispatch({ type: 'SET_BANKER_OFFER', payload: { bankerOffer: '0' } })
+            dispatch({ type: 'SET_BANKER_OFFER', payload: { bankerOffer: '$100' } })
             done()
         }, 2000)
     }

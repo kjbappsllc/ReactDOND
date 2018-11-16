@@ -31,7 +31,6 @@ body {
     justify-content: center;
     flex-direction: column;
     display: flex;
-    background-color: red;
     padding: 8vh 8vw;
     @extend .fill-parent;
 }
@@ -40,7 +39,6 @@ body {
     display: flex;
     justify-content: center;
     flex-direction: row;
-    background-color: green;
     flex: 0.8;
 }
 
@@ -59,7 +57,6 @@ body {
 }
 
 .case-container {
-    background-color: purple;
     display: flex;
     flex-direction: row;
     flex: 1;
@@ -71,7 +68,6 @@ body {
 
     .case {
         display: flex;
-        background-color: orange;
         width: 15%;
         height: 17%;
         margin: 4px;
@@ -108,14 +104,14 @@ body {
 }
 
 .game-heading {
-    height: 11%;
+    height: 10%;
     align-self: center;
     justify-content: center;
     background-color: $yellow;
     align-items: center;
     border-radius: 0px 0px 10px 10px;
     display: flex;
-    @extend .width-50;
+    padding: 1%;
 }
 
 .side-panel {
@@ -144,6 +140,12 @@ body {
         display: flex;
         font-size: 1.2em;
     }
+
+    .panel-item {
+        &.opened {
+            opacity: 0.3;
+        }
+    }
 }
 
 .bottom-panel {
@@ -162,14 +164,13 @@ body {
 
     .chosen-case-container {
         flex: 0.25;
-        background-color: pink;
+        color: white;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         display: flex;
 
         .case-container {
-            background-color: orange;
             @extend .position-rel;
             
             img {
@@ -185,21 +186,22 @@ body {
 
             &.text {
                 text-align: center;
+                color: black;
             }
         }
     }
 
     .game-info-container {
+        color: white;
         flex: 0.75;
-        background-color: blue;
         flex-direction: column;
         align-items: center;
     }
 }
 
 .bankerPhase-container {
-    width: 50vw;
-    height: 65vh;
+    width: 35vw;
+    height: 40vh;
     border-radius: 10px;
     padding: 2%;
     background-color: white;

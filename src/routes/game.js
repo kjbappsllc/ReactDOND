@@ -2,11 +2,11 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
-import { getOpenedCases, getInfoText, getBankerPhase } from '../reducer'
+import { getOpenedCases, getInfoText, getBankerPhase, getBankerOffer } from '../reducer'
 import { Modal } from '../common-components'
 
-const SidePanelItem = ({ uuid, value }) => (
-    <div>{value}</div>
+const SidePanelItem = ({ uuid, value, isOpened }) => (
+    <div className={`panel-item ${isOpened ? 'opened' : ''}`}>{value}</div>
 )
 
 const CaseItem = ({ uuid, isOpened, isChosen, num, handleCaseClicked }) => (
@@ -17,10 +17,12 @@ const CaseItem = ({ uuid, isOpened, isChosen, num, handleCaseClicked }) => (
 )
 
 const Game = ({ dispatch, history, rewards, ...props }) => {
-    const { openedCases, infoText, chosenID, bankerPhase } = props
+    const { openedCases, infoText, chosenID, bankerPhase, bankerOffer } = props
     const mid = Math.floor(rewards.length / 2)
-    const leftPanelItems = rewards.slice(0, mid)
-    const rightPanelItems = rewards.slice(mid, rewards.length)
+    const sortedRewards = _.sortBy(rewards, ['total'])
+    const leftPanelItems = sortedRewards.slice(0, mid)
+    const rightPanelItems = sortedRewards.slice(mid, sortedRewards.length)
+    console.log(rewards)
 
     return (
         <div className="game-base">
@@ -28,13 +30,17 @@ const Game = ({ dispatch, history, rewards, ...props }) => {
                 <div className="side-panel left">
                     {
                         leftPanelItems.map((reward, index) => (
-                            <SidePanelItem key={index} uuid={reward.uuid} value={reward.total} />
+                            <SidePanelItem
+                                key={index}
+                                uuid={reward.uuid}
+                                value={reward.total}
+                                isOpened={openedCases.includes(reward.uuid)} />
                         ))
                     }
                 </div>
                 <div className="gameplay-area">
                     <div className="game-heading">
-                        <div className="text game-heading-text">Title</div>
+                        <div className="text game-heading-text">DEAL OR NO DEAL</div>
                     </div>
                     <div className="case-container">
                         {rewards.map((reward, index) => (
@@ -51,7 +57,11 @@ const Game = ({ dispatch, history, rewards, ...props }) => {
                 <div className="side-panel right">
                     {
                         rightPanelItems.map((reward, index) => (
-                            <SidePanelItem key={index} uuid={reward.uuid} value={reward.total} />
+                            <SidePanelItem
+                                key={index}
+                                uuid={reward.uuid}
+                                value={reward.total}
+                                isOpened={openedCases.includes(reward.uuid)} />
                         ))
                     }
                 </div>
@@ -74,12 +84,12 @@ const Game = ({ dispatch, history, rewards, ...props }) => {
             </div>
             <Modal isOpen={bankerPhase}>
                 <div className="bankerPhase-container">
-                    {bankerPhase.bankerOffer ?
+                    {bankerOffer ?
                         <div>
-                            <div>BANKER'S OFFER</div>
+                            <div>BANKER'S OFFER: {bankerOffer}</div>
                             <div>
-                                <div onClick={() => dispatch.handleAcceptBankerDeal()}>Deal</div>
-                                <div onClick={() => dispatch.handleDeclineBankerDeal()}>No Deal</div>
+                                <div style={{ cursor: 'pointer' }} onClick={() => dispatch.handleAcceptBankerDeal()}>Deal</div>
+                                <div style={{ cursor: 'pointer' }} onClick={() => dispatch.handleDeclineBankerDeal()}>No Deal</div>
                             </div>
                         </div>
                         : <div>BANKER IS CALLING ... </div>
@@ -95,7 +105,8 @@ const mapStateToProps = state => ({
     openedCases: getOpenedCases(state),
     infoText: getInfoText(state),
     chosenID: state.game.chosenCaseId,
-    bankerPhase: getBankerPhase(state)
+    bankerPhase: getBankerPhase(state),
+    bankerOffer: getBankerOffer(state)
 })
 
 const mapDispatchToProps = dispatch => ({
