@@ -57,19 +57,28 @@ const gameInitalState = {
     openedCases: [],
     infoText: 'Please Select Your Case',
     currentRound: 0,
+    bankerPhase: false
 }
 
 const game = Reducer(gameInitalState, {
     'OPEN_CASE': (state, action) => ({ ...state, openedCases: [...state.openedCases, action.payload] }),
     'INCREASE_ROUND': (state, action) => ({ ...state, currentRound: state.currentRound + 1 }),
-    'CHOSE_PERSONAL_CASE': (state, action) => ({ ...state, chosenCaseId: action.payload, rewards: _.filter(state.rewards, obj => obj.uuid !== action.payload) })
+    'CHOSE_PERSONAL_CASE': (state, action) => ({ ...state, chosenCaseId: action.payload }),
+    'CHANGE_INFO_TEXT': (state, action) => ({ ...state, infoText: action.payload }),
+    'SHOW_BANKER_MODAL': (state, action) => ({ ...state, bankerPhase: action.payload }),
+    'HIDE_BANKER_MODAL': (state, action) => ({ ...state, bankerPhase: false }),
+    'SET_BANKER_OFFER': (state, action) => ({ ...state, bankerPhase: action.payload }),
+    'GAME_RESET': (state, action) => ({ ...gameInitalState }),
 })
 
 export const getUnopenedCases = state => _.filter(state.game.rewards, (obj) => !state.game.openedCases.includes(obj.uuid));
-export const getPlayableRewards = state =>  _.filter(state.game.rewards, obj => obj.uuid !== state.game.chosenCaseId)
+export const getOpenedCases = state => state.game.openedCases;
+export const getPlayableRewards = state => _.filter(state.game.rewards, obj => obj.uuid !== state.game.chosenCaseId)
 export const getChosenCase = state => _.find(state.game.rewards, { uuid: state.game.chosenCaseId });
 export const getCurrentRound = state => state.game.currentRound
 export const getInfoText = state => state.game.infoText
+export const getBankerPhase = state => state.game.bankerPhase
+export const getBankerOffer = state => state.game.bankerPhase.bankerOffer
 export default combineReducers({
     game
 })
