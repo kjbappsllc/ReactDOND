@@ -40,7 +40,9 @@ const Game = ({ dispatch, history, rewards, ...props }) => {
                 </div>
                 <div className="gameplay-area">
                     <div className="game-heading">
-                        <div className="text game-heading-text">DEAL OR NO DEAL</div>
+                        <div className="game-heading-logo">
+                            <img style={{width: '100%', objectFit: 'cover', height: 'auto'}} src={require('../resources/images/logo.png')} />
+                        </div>
                     </div>
                     <div className="case-container">
                         {rewards.map((reward, index) => (
