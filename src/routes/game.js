@@ -71,7 +71,7 @@ const Game = ({ dispatch, history, rewards, ...props }) => {
             <div className="game-info-container">
                 <div className="bottom-panel">
                     <div className="chosen-case-container">
-                        <div>Your Case</div>
+                        <div className="label-text">Your Case</div>
                         <div className="case-container">
                             <img style={{ width: '80%', height: 'auto' }} src={require('../resources/images/briefcase.png')} />
                             {!chosenID ?
@@ -81,7 +81,7 @@ const Game = ({ dispatch, history, rewards, ...props }) => {
                         </div>
                     </div>
                     <div className="vbar" />
-                    <div className="game-info-container">{infoText}</div>
+                    <div className="game-info-text">{infoText}</div>
                 </div>
             </div>
             <Modal isOpen={bankerPhase}>

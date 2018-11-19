@@ -1,7 +1,7 @@
 @import "colors.scss";
 @import "fonts.scss";
 
-$yellow-border: 6px solid $yellow;
+$yellow-border: 0.35vw solid $yellow;
 $main-game-width: 50%;
 
 * {
@@ -12,14 +12,16 @@ $main-game-width: 50%;
 
 html {
     height: 100%;
-    font-size: 24px;
+    font-size: calc( 12px + (24 - 12) * ( (100vw - 400px) / ( 800 - 400) ));
+    font-family: $font-main;
+    font-weight: $medium-weight;
 }
 
 body {
     background-image: 
     linear-gradient(
-      rgba(0, 0, 0, 0.45), 
-      rgba(0, 0, 0, 0.45)
+      rgba(0, 0, 0, 0.65), 
+      rgba(0, 0, 0, 0.65)
     ),
     url('../resources/images/dond_bg.jpg');
     background-size: cover;
@@ -91,6 +93,7 @@ body {
         }
 
         .case-num {
+            font-size: 0.55em;
             @extend .absolute-center;
         }
     }
@@ -108,7 +111,6 @@ body {
     justify-content: center;
     background-color: $yellow;
     align-items: center;
-    border-radius: 0px 0px 10px 10px;
     display: flex;
 }
 
@@ -136,7 +138,8 @@ body {
         justify-content: flex-end;
         align-items: center;
         display: flex;
-        font-size: 1.2em;
+        font-size: 0.6em;
+        
     }
 
     .panel-item {
@@ -156,44 +159,59 @@ body {
 
     .vbar {
         background-color: $yellow;
-        width: 10px;
+        width: 1.5%;
         height: 100%;
     }
 
     .chosen-case-container {
+        padding-top: 10px;
+        padding-bottom: 10px;
         flex: 0.25;
         color: white;
+        font-weight: $normal-weight;
         flex-direction: column;
         align-items: center;
         justify-content: center;
         display: flex;
 
+        .label-text { 
+            font-size: 0.4em;
+        }
+
         .case-container {
             @extend .position-rel;
-            
             img {
                 object-fit: contain;
             }
         }
 
         .inside-case {
-            width: 25%;
+            width: 40%;
             height: auto;
-            object-fit: contain;
             @extend .absolute-center;
+
+            img {
+                object-fit: contain;
+            }
 
             &.text {
                 text-align: center;
                 color: black;
+                font-size: 1.0em;
+                font-weight: $medium-weight;
             }
         }
     }
 
-    .game-info-container {
+    .game-info-text {
         color: white;
+        display: flex;
         flex: 0.75;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
+        font-size: 0.5em;
+        font-weight: $normal-weight;
     }
 }
 
@@ -292,7 +310,6 @@ body {
     overflow: auto;
     text-align: center;
     padding: 4px;
-    cursor: pointer;
 }
 
 .modal-content-div:after {
