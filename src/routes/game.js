@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
-import { getOpenedCases, getInfoText, getBankerPhase, getBankerOffer, getHighestOffer, getBankerRealOffer } from '../reducer'
+import { getOpenedCases, getInfoText, getBankerPhase, getBankerOffer, getHighestOffer, getBankerRealOffer, getCurrentRound } from '../reducer'
 import { Modal } from '../common-components'
 
 Number.prototype.currency = function () { return `$${(this).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}` }
@@ -19,9 +19,10 @@ const CaseItem = ({ uuid, isOpened, isChosen, num, handleCaseClicked }) => (
 )
 
 const Game = ({ dispatch, history, rewards, ...props }) => {
-    const { openedCases, infoText, chosenID, bankerPhase, bankerOffer, highestOffer, realOffer } = props
+    const { openedCases, infoText, chosenID, bankerPhase, bankerOffer, highestOffer, realOffer, currentRound } = props
     const mid = Math.floor(rewards.length / 2)
     const sortedRewards = _.sortBy(rewards, ['total'])
+    const lastRound = currentRound === 10
     const leftPanelItems = sortedRewards.slice(0, mid)
     const rightPanelItems = sortedRewards.slice(mid, sortedRewards.length)
     return (
@@ -72,7 +73,9 @@ const Game = ({ dispatch, history, rewards, ...props }) => {
                 <div className="bottom-panel">
                     <div className="chosen-case-container">
                         <div className="label-text">Your Case</div>
-                        <div className="case-container">
+                        <div className={`case-container ${openedCases.includes(chosenID) && 'opened'}`}
+                            style={{ cursor: lastRound ? 'pointer' : 'default' }}
+                            onClick={() => lastRound && dispatch.handleCaseClicked(chosenID)}>
                             <img style={{ width: '80%', height: 'auto' }} src={require('../resources/images/briefcase.png')} />
                             {!chosenID ?
                                 <img className="inside-case" src={require('../resources/images/questionmark.png')} /> :
@@ -94,7 +97,7 @@ const Game = ({ dispatch, history, rewards, ...props }) => {
                             <div className="offer">
                                 <div>BANKER'S OFFER: {bankerOffer.currency()}</div>
                                 <div className="hbar" />
-                                <div>{realOffer}</div>
+                                <div className="real-offer">{realOffer}</div>
                                 <div className="decision">
                                     <div className="action-l" onClick={() => dispatch.handleAcceptBankerDeal()}>Deal</div>
                                     <div className="action-r" onClick={() => dispatch.handleDeclineBankerDeal()}>No Deal</div>
@@ -106,7 +109,7 @@ const Game = ({ dispatch, history, rewards, ...props }) => {
                     </div>
                 </div>
             </Modal>
-        </div>
+        </div >
     )
 }
 
@@ -118,14 +121,15 @@ const mapStateToProps = state => ({
     bankerPhase: getBankerPhase(state),
     bankerOffer: getBankerOffer(state),
     highestOffer: getHighestOffer(state),
-    realOffer: getBankerRealOffer(state)
+    realOffer: getBankerRealOffer(state),
+    currentRound: getCurrentRound(state)
 })
 
 const mapDispatchToProps = dispatch => ({
     dispatch: {
         handleCaseClicked: c => dispatch({ type: 'CASE_CLICKED', payload: c }),
         handleAcceptBankerDeal: () => dispatch({ type: 'BANKER_OFFER_DECISION', payload: 'DEAL' }),
-        handleDeclineBankerDeal: () => dispatch({ type: 'BANKER_OFFER_DECISION', payload: 'NO_DEAL' })
+        handleDeclineBankerDeal: () => dispatch({ type: 'BANKER_OFFER_DECISION', payload: 'NO_DEAL' }),
     }
 })
 

@@ -23,8 +23,8 @@ const caseClickedLogic = createLogic({
 
             //Game is over
             if (openedCases - rewardsLen === 0) {
-                const chosenCase = getChosenCase(getState())
-                dispatch({ type: 'CHANGE_INFO_TEXT', payload: JSON.stringify(chosenCase) })
+                const lastCase = getUnopenedCases(getState())
+                dispatch({ type: 'SHOW_REWARDS', payload: lastCase[0] })
             }
             //Need To call Banker
             else if (desiredCasesToOpen === 0) {
@@ -42,16 +42,13 @@ const bankerCallLogic = createLogic({
     process({ getState, action }, dispatch, done) {
         let currentRound = getCurrentRound(getState())
         dispatch({ type: 'SHOW_BANKER_MODAL', payload: { bankerOffer: '' } })
-        dispatch({ type: 'CHANGE_INFO_TEXT', payload: genCasesToOpenInfoText(roundsSequence[currentRound]) })
-        dispatch({ type: 'INCREASE_ROUND' })
-
-        currentRound = getCurrentRound(getState())
+        dispatch({ type: 'CHANGE_INFO_TEXT', payload: ' ' })
         const bankerOfferDecay = 0.25
         const unopenedCases = getUnopenedCases(getState())
         const highestOffer = getHighestOffer(getState())
         const bankerOptions = getBankerOptions(getState())
         const prevOffers = getPreviousBankerOffers(getState())
-        const remainingMean = unopenedCases.reduce((a,b) => a + b.mask, 0) / unopenedCases.length
+        const remainingMean = unopenedCases.reduce((a, b) => a + b.mask, 0) / unopenedCases.length
         const multiplier = bankerOfferDecay * currentRound
         const bankOffer = Math.ceil(multiplier < 1 ? remainingMean * multiplier : remainingMean)
         let realOffer = ''
@@ -64,17 +61,18 @@ const bankerCallLogic = createLogic({
             }
             return offer
         }
-        switch(true) {
+        switch (true) {
             case (bankOffer > 0 && bankOffer <= 35000): realOffer = getRealOffer(bankerOptions.small); break;
-            case (bankOffer > 35000 && bankOffer <= 70000): realOffer = getRealOffer(bankerOptions.mediumSmall); break;
-            case (bankOffer > 70000 && bankOffer <= 100000): realOffer = getRealOffer(bankerOptions.medium); break;
+            case (bankOffer > 35000 && bankOffer <= 65000): realOffer = getRealOffer(bankerOptions.mediumSmall); break;
+            case (bankOffer > 65000 && bankOffer <= 100000): realOffer = getRealOffer(bankerOptions.medium); break;
             case (bankOffer > 100000 && bankOffer <= 150000): realOffer = getRealOffer(bankerOptions.mediumLarge); break;
             default: realOffer = getRealOffer(bankerOptions.large); break;
         }
         setTimeout(() => {
-            dispatch({ type: 'SET_BANKER_OFFER', payload: { bankerOffer: { maskOffer: bankOffer, realOffer: realOffer } }})
-            if(bankOffer > highestOffer){
-                dispatch({type: 'SET_HIGHEST_OFFER', payload: bankOffer })
+            dispatch({ type: 'SET_BANKER_OFFER', payload: { bankerOffer: { maskOffer: bankOffer, realOffer: realOffer } } })
+            dispatch({ type: 'ADD_TO_PREVIOUS_OFFERS', payload: realOffer })
+            if (bankOffer > highestOffer) {
+                dispatch({ type: 'SET_HIGHEST_OFFER', payload: bankOffer })
             }
             done()
         }, 2000)
@@ -84,7 +82,24 @@ const bankerCallLogic = createLogic({
 const bankerOfferDecisionLogic = createLogic({
     type: 'BANKER_OFFER_DECISION',
     process({ getState, action }, dispatch, done) {
+        const currentRound = getCurrentRound(getState())
         dispatch({ type: 'HIDE_BANKER_MODAL' })
+        if (action.payload === 'NO_DEAL') {
+            if (currentRound === 9) {
+                dispatch({ type: 'CHANGE_INFO_TEXT', payload: 'Choose one of the remaining cases to eliminate!' })
+            } else {
+                dispatch({ type: 'CHANGE_INFO_TEXT', payload: genCasesToOpenInfoText(roundsSequence[currentRound]) })
+            }
+        }
+        dispatch({ type: 'INCREASE_ROUND' })
+        done()
+    }
+})
+
+const showRewardsLogic = createLogic({
+    type: 'SHOW_REWARDS',
+    process({ getState, action }, dispatch, done) {
+        console.log("Attempting to show rewards")
     }
 })
 

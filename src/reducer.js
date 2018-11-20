@@ -4,7 +4,7 @@ import combos from 'combos'
 import _ from 'lodash'
 
 const createInitialRewards = () => {
-    const mask = [.01,1,5,10,25,50,75,100,200,300,400,500,750,1000,5000,10000,25000,50000,75000,100000,200000,300000,400000,500000,750000,1000000]
+    const mask = [.01, 1, 5, 10, 25, 50, 75, 100, 200, 300, 400, 500, 750, 1000, 5000, 10000, 25000, 50000, 75000, 100000, 200000, 300000, 400000, 500000, 750000, 1000000]
     function create_UUID() {
         var dt = new Date().getTime();
         var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -23,8 +23,8 @@ const createInitialRewards = () => {
         { location: ["Black Friday!"], value: 200, description: "$200 for Black Friday shopping! " },
         { location: ["Black Friday!"], value: 300, description: "$300 for Black Friday shopping!" }],
         spa: [{ location: ["Relax Nail Spa"], value: 65, description: "'Basic Facial'" },
-        { location: ["Relax Nail Spa"], value: 75, description: "'Mani and Spa Pedi' with nail and toe polish and file" },
-        { location: ["The Spa Midtown"], value: 115, description: "'Herbal Fusion Massage' 60 minutes" }],
+        { location: ["Relax Nail Spa"], value: 75, description: "Mani and Spa Pedi' with nail and toe polish and file" },
+        { location: ["The Spa Midtown"], value: 115, description: "Herbal Fusion Massage' 60 minutes" }],
         gift: [{ location: ["Stores Near You"], value: 55, description: "Hair Package: Mielle Gummy Healthy Hair Adult Vitamins with shea moisture shampoo and conditioner set" },
         { location: ["Amazon"], value: 60, description: "Kitchen Package:  NutriBullet NBR-1201 12-Piece High-Speed Blender/Mixer System, Gray (600 Watts)" },
         { locaton: ["Amazon"], value: 100, description: "Feel Warm Package: Electric Heated Throw Blanket, Ceramic Space Heater" }]
@@ -36,7 +36,7 @@ const createInitialRewards = () => {
     })
     const rewards = values.sort((a, b) => a.total - b.total).filter((obj, ind) => (ind + 1) % 3 == 0).splice(1);
     return rewards.map((obj, ind) => {
-        return {...obj, mask: mask[ind]}
+        return { ...obj, mask: mask[ind] }
     })
 }
 
@@ -55,8 +55,7 @@ const createBankerRewards = () => {
     const medium = [
         "Go Pro Hero 2018",
         "PowerBeats 3 wireless Earphones",
-        "Clarisonic Mia Prima Sonic Cleansing Face Brush, White and Aerie Swimsuit: yellow with green flowers"
-
+        "Clarisonic Mia Prima Sonic Cleansing Face Brush White and an Aerie Swimsuit: yellow with green flowers"
     ]
     const mediumLarge = [
         "Dinner at Osaka and Apple Airpods",
@@ -84,13 +83,15 @@ const Reducer = (initialState, handlers = {}) => {
 const gameInitalState = {
     rewards: _.shuffle(createInitialRewards()),
     bankerOptions: createBankerRewards(),
-    previousBankerOptions: [],
+    previousBankerOffers: [],
     chosenCaseId: '',
     openedCases: [],
+    chosenReward: '',
     infoText: 'Please Select Your Case',
     currentRound: 0,
     bankerPhase: false,
-    highestOffer: 0
+    highestOffer: 0,
+    gameOver: false
 }
 
 const game = Reducer(gameInitalState, {
@@ -101,8 +102,10 @@ const game = Reducer(gameInitalState, {
     'SHOW_BANKER_MODAL': (state, action) => ({ ...state, bankerPhase: action.payload }),
     'HIDE_BANKER_MODAL': (state, action) => ({ ...state, bankerPhase: false }),
     'SET_BANKER_OFFER': (state, action) => ({ ...state, bankerPhase: action.payload }),
-    'SET_HIGHEST_OFFER': (state, action) => ({...state, highestOffer: action.payload}),
+    'SET_HIGHEST_OFFER': (state, action) => ({ ...state, highestOffer: action.payload }),
+    'ADD_TO_PREVIOUS_OFFERS': (state, action) => ({ ...state, previousBankerOffers: [...state.previousBankerOffers, action.payload] }),
     'GAME_RESET': (state, action) => ({ ...gameInitalState }),
+    'SET_CHOSEN_REWARD': (state, action) => ({ ...state, chosenReward: action.payload })
 })
 
 export const getUnopenedCases = state => _.filter(state.game.rewards, (obj) => !state.game.openedCases.includes(obj.uuid));
@@ -116,7 +119,8 @@ export const getBankerOffer = state => state.game.bankerPhase.bankerOffer && sta
 export const getBankerRealOffer = state => state.game.bankerPhase.bankerOffer && state.game.bankerPhase.bankerOffer.realOffer
 export const getHighestOffer = state => state.game.highestOffer
 export const getBankerOptions = state => state.game.bankerOptions
-export const getPreviousBankerOffers = state => state.game.previousBankerOptions
+export const getPreviousBankerOffers = state => state.game.previousBankerOffers
+export const getChosenReward = state => state.game.chosenReward
 export default combineReducers({
     game
 })
