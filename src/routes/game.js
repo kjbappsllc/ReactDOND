@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 
-import { getOpenedCases, getInfoText, getBankerPhase, getBankerOffer, getHighestOffer } from '../reducer'
+import { getOpenedCases, getInfoText, getBankerPhase, getBankerOffer, getHighestOffer, getBankerRealOffer } from '../reducer'
 import { Modal } from '../common-components'
 
 Number.prototype.currency = function () { return `$${(this).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}` }
@@ -19,7 +19,7 @@ const CaseItem = ({ uuid, isOpened, isChosen, num, handleCaseClicked }) => (
 )
 
 const Game = ({ dispatch, history, rewards, ...props }) => {
-    const { openedCases, infoText, chosenID, bankerPhase, bankerOffer, highestOffer } = props
+    const { openedCases, infoText, chosenID, bankerPhase, bankerOffer, highestOffer, realOffer } = props
     const mid = Math.floor(rewards.length / 2)
     const sortedRewards = _.sortBy(rewards, ['total'])
     const leftPanelItems = sortedRewards.slice(0, mid)
@@ -94,6 +94,7 @@ const Game = ({ dispatch, history, rewards, ...props }) => {
                             <div className="offer">
                                 <div>BANKER'S OFFER: {bankerOffer.currency()}</div>
                                 <div className="hbar" />
+                                <div>{realOffer}</div>
                                 <div className="decision">
                                     <div className="action-l" onClick={() => dispatch.handleAcceptBankerDeal()}>Deal</div>
                                     <div className="action-r" onClick={() => dispatch.handleDeclineBankerDeal()}>No Deal</div>
@@ -116,7 +117,8 @@ const mapStateToProps = state => ({
     chosenID: state.game.chosenCaseId,
     bankerPhase: getBankerPhase(state),
     bankerOffer: getBankerOffer(state),
-    highestOffer: getHighestOffer(state)
+    highestOffer: getHighestOffer(state),
+    realOffer: getBankerRealOffer(state)
 })
 
 const mapDispatchToProps = dispatch => ({

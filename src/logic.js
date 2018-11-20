@@ -60,19 +60,19 @@ const bankerCallLogic = createLogic({
             if (optionsArr.every(val => prevOffers.includes(val))) {
                 offer = _.sample(optionsArr);
             } else {
-                console.log("")
+                offer = optionsArr.find(val => !prevOffers.includes(val))
             }
+            return offer
         }
         switch(true) {
-            case (bankOffer > 0 && bankOffer < 10000): {
-                realOffer = _.sample(bankerOptions.small);
-                while(prevOffers.contains(realOffer)) {
-                    realOffer = _.sample(bankerOptions.small);
-                }
-            }
+            case (bankOffer > 0 && bankOffer <= 35000): realOffer = getRealOffer(bankerOptions.small); break;
+            case (bankOffer > 35000 && bankOffer <= 70000): realOffer = getRealOffer(bankerOptions.mediumSmall); break;
+            case (bankOffer > 70000 && bankOffer <= 100000): realOffer = getRealOffer(bankerOptions.medium); break;
+            case (bankOffer > 100000 && bankOffer <= 150000): realOffer = getRealOffer(bankerOptions.mediumLarge); break;
+            default: realOffer = getRealOffer(bankerOptions.large); break;
         }
         setTimeout(() => {
-            dispatch({ type: 'SET_BANKER_OFFER', payload: { bankerOffer: { maskOffer: bankOffer, realOffer: '' } }})
+            dispatch({ type: 'SET_BANKER_OFFER', payload: { bankerOffer: { maskOffer: bankOffer, realOffer: realOffer } }})
             if(bankOffer > highestOffer){
                 dispatch({type: 'SET_HIGHEST_OFFER', payload: bankOffer })
             }

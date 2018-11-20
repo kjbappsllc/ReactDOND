@@ -113,6 +113,7 @@ export const getCurrentRound = state => state.game.currentRound
 export const getInfoText = state => state.game.infoText
 export const getBankerPhase = state => state.game.bankerPhase
 export const getBankerOffer = state => state.game.bankerPhase.bankerOffer && state.game.bankerPhase.bankerOffer.maskOffer
+export const getBankerRealOffer = state => state.game.bankerPhase.bankerOffer && state.game.bankerPhase.bankerOffer.realOffer
 export const getHighestOffer = state => state.game.highestOffer
 export const getBankerOptions = state => state.game.bankerOptions
 export const getPreviousBankerOffers = state => state.game.previousBankerOptions
