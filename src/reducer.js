@@ -16,7 +16,7 @@ const createInitialRewards = () => {
     }
 
     const permutations = combos({
-        dinner: [{ location: ["Aldo", "Bosco", "Bahama Breeze", "Majestic Grille"], value: 70, description: "Dinner with your choice of wine " },
+        dinner: [{ location: ["Aldo", "Bosco", "Bahama Breeze", "Majestic Grille"], value: 70, description: "All inclusive dinner" },
         { location: ["Ciao Bella", "Buckley's", "The Beauty Shop", "Ecco"], value: 90, description: "All inclusive dinner" },
         { location: ["Flight", "Catherine and Mary's", "Char", "Southern Social"], value: 115, description: "All inclusive dinner" }],
         shopping: [{ location: ["Black Friday!"], value: 100, description: "$100 for Black Friday shopping! " },
@@ -25,8 +25,8 @@ const createInitialRewards = () => {
         spa: [{ location: ["Relax Nail Spa"], value: 65, description: "'Basic Facial'" },
         { location: ["Relax Nail Spa"], value: 75, description: "'Mani and Spa Pedi' with nail and toe polish and file" },
         { location: ["The Spa Midtown"], value: 115, description: "'Herbal Fusion Massage' 60 minutes" }],
-        gifts: [{ location: ["Stores Near You"], value: 55, description: "Hair Package: Mielle Gummy Healthy Hair Adult Vitamins with shea moisture shampoo and conditioner set" },
-        { location: ["Amazon"], value: 60, description: "Sounds Package:  JBL Clip 3 Speaker" },
+        gift: [{ location: ["Stores Near You"], value: 55, description: "Hair Package: Mielle Gummy Healthy Hair Adult Vitamins with shea moisture shampoo and conditioner set" },
+        { location: ["Amazon"], value: 60, description: "Kitchen Package:  NutriBullet NBR-1201 12-Piece High-Speed Blender/Mixer System, Gray (600 Watts)" },
         { locaton: ["Amazon"], value: 100, description: "Feel Warm Package: Electric Heated Throw Blanket, Ceramic Space Heater" }]
     })
     const values = permutations.map((obj, ind) => {
@@ -41,7 +41,34 @@ const createInitialRewards = () => {
 }
 
 const createBankerRewards = () => {
+    const small = [
+        "Dinner at Gus's chicken and a rose",
+        "Dinner at Huey's and flowers",
+        "Dinner at Las Delicias and a rose",
+        "Dinner at Uncle Lou's with a rose"
+    ]
+    const mediumSmall = [
+        "Dinner at Pho Bin and the JBL Sounds Speaker 3",
+        "Dinner at Babalu and a Citrine November Birthstone Necklace",
+        "Dinner at Belly Acres and Fujifilm Instax Mini 9 - Ice Blue Instant Camera"
+    ]
+    const medium = [
+        "Go Pro Hero 2018",
+        "PowerBeats 3 wireless Earphones",
+        "Clarisonic Mia Prima Sonic Cleansing Face Brush, White and Aerie Swimsuit: yellow with green flowers"
 
+    ]
+    const mediumLarge = [
+        "Dinner at Osaka and Apple Airpods",
+        "Dinner at Casablanca and Ninja BL681A Mega Kitchen System, 16, Black",
+        "Dinner at Soul Fish Cafe with Spa Mani Pedi and Fujifilm Instax Mini 9 - Ice Blue Instant Camera"
+    ]
+    const large = [
+        "Dinner at Flight and Spa Mani Pedi with the Ninja BL681A Mega Kitchen System, 16, Black",
+        "Dinner at the Beauty Shop and Spa Mani Pedi with Apple Airpods",
+        "Dinner at Owen Brennan's and Spa Mani Pedi with Clarisonic Mia Prima Sonic Cleansing Face Brush and JBL Sounds Speaker 3"
+    ]
+    return { small, mediumSmall, medium, mediumLarge, large }
 }
 
 const Reducer = (initialState, handlers = {}) => {
@@ -56,6 +83,8 @@ const Reducer = (initialState, handlers = {}) => {
 
 const gameInitalState = {
     rewards: _.shuffle(createInitialRewards()),
+    bankerOptions: createBankerRewards(),
+    previousBankerOptions: [],
     chosenCaseId: '',
     openedCases: [],
     infoText: 'Please Select Your Case',
@@ -83,8 +112,10 @@ export const getChosenCase = state => _.find(state.game.rewards, { uuid: state.g
 export const getCurrentRound = state => state.game.currentRound
 export const getInfoText = state => state.game.infoText
 export const getBankerPhase = state => state.game.bankerPhase
-export const getBankerOffer = state => state.game.bankerPhase.bankerOffer
+export const getBankerOffer = state => state.game.bankerPhase.bankerOffer && state.game.bankerPhase.bankerOffer.maskOffer
 export const getHighestOffer = state => state.game.highestOffer
+export const getBankerOptions = state => state.game.bankerOptions
+export const getPreviousBankerOffers = state => state.game.previousBankerOptions
 export default combineReducers({
     game
 })
