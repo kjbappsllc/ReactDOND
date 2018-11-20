@@ -12,7 +12,7 @@ $main-game-width: 50%;
 
 html {
     height: 100%;
-    font-size: calc( 12px + (24 - 12) * ( (100vw - 400px) / ( 800 - 400) ));
+    font-size: 2.8vw;
     font-family: $font-main;
     font-weight: $medium-weight;
 }
@@ -138,7 +138,7 @@ body {
         justify-content: flex-end;
         align-items: center;
         display: flex;
-        font-size: 0.6em;
+        font-size: 0.5em;
         
     }
 
@@ -216,20 +216,82 @@ body {
 }
 
 .bankerPhase-container {
-    width: 35vw;
-    height: 40vh;
+    width: 40vw;
+    height: auto;
     border-radius: 10px;
     padding: 2%;
     background-color: black;
-    background-image: url('../resources/images/banker.png');
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
     color: white;
     display: flex;
-    justify-content: center;
     flex-direction: column;
     border: $yellow-border;
+
+    .hbar {
+        width: 100%;
+        height: 2px;
+        margin-top: 5px;
+        background-color: white;
+    }
+
+    .decision {
+        display: flex;
+        flex-direction: row;
+        padding-top: 25px;
+        justify-content: center;
+        
+        .action-l, .action-r {
+            cursor: pointer;
+            background-color: $yellow;
+            border-radius: 5px;
+            width: 30%;
+            padding: 10px 0px;
+            color: black;
+        }
+        .action-l {
+            margin-right: 5px;
+        }
+        .action-r {
+            margin-left: 5px;
+        }
+    }
+
+    .highest-offer {
+        padding-top: 25px;
+        padding-bottom: 5px;
+        display: flex;
+        font-size: 0.6em;
+        justify-content: center;
+        align-items: flex-end;
+    }
+
+    .banker {
+        flex: 0.4;
+        display: flex;
+        img {
+            object-fit: contain;
+            @extend .fill-parent;
+        }
+    }
+    .banker-offer {
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+        flex: 0.6;
+        padding-top: 10px;
+        font-size: 0.6em;
+    }
+
+    .offer {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        align-content: center;
+        text-align: center;
+    }
+
+    .calling-banker {
+        font-size: 0.8em;
+    }
 }
 
 ////Utils////

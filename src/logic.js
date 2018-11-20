@@ -1,5 +1,5 @@
 import { createLogic } from 'redux-logic';
-import { getOpenedCases, getCurrentRound, getPlayableRewards, getChosenCase } from './reducer'
+import { getOpenedCases, getCurrentRound, getPlayableRewards, getChosenCase, getUnopenedCases, getHighestOffer } from './reducer'
 import _ from 'lodash'
 
 const genCasesToOpenInfoText = num => `Chose ${num} more case(s) to open`
@@ -40,13 +40,24 @@ const caseClickedLogic = createLogic({
 const bankerCallLogic = createLogic({
     type: 'BANKER_CALL',
     process({ getState, action }, dispatch, done) {
+        let currentRound = getCurrentRound(getState())
         dispatch({ type: 'SHOW_BANKER_MODAL', payload: { bankerOffer: '' } })
-        const currentRound = getCurrentRound(getState())
         dispatch({ type: 'CHANGE_INFO_TEXT', payload: genCasesToOpenInfoText(roundsSequence[currentRound]) })
         dispatch({ type: 'INCREASE_ROUND' })
 
+        currentRound = getCurrentRound(getState())
+        const bankerOfferDecay = 0.25
+        const unopenedCases = getUnopenedCases(getState())
+        const highestOffer = getHighestOffer(getState())
+        const remainingMean = unopenedCases.reduce((a,b) => a + b.mask, 0) / unopenedCases.length
+        const multiplier = bankerOfferDecay * currentRound
+        const bankOffer = Math.ceil(multiplier < 1 ? remainingMean * multiplier : remainingMean)
+
         setTimeout(() => {
-            dispatch({ type: 'SET_BANKER_OFFER', payload: { bankerOffer: '$100' } })
+            dispatch({ type: 'SET_BANKER_OFFER', payload: { bankerOffer: bankOffer } })
+            if(bankOffer > highestOffer){
+                dispatch({type: 'SET_HIGHEST_OFFER', payload: bankOffer })
+            }
             done()
         }, 2000)
     }

@@ -4,6 +4,7 @@ import combos from 'combos'
 import _ from 'lodash'
 
 const createInitialRewards = () => {
+    const mask = [.01,1,5,10,25,50,75,100,200,300,400,500,750,1000,5000,10000,25000,50000,75000,100000,200000,300000,400000,500000,750000,1000000]
     function create_UUID() {
         var dt = new Date().getTime();
         var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
@@ -33,8 +34,10 @@ const createInitialRewards = () => {
         const uuid = create_UUID()
         return { ...obj, total, uuid }
     })
-    const sorted_values = values.sort((a, b) => a.total - b.total);
-    return sorted_values.filter((obj, ind) => (ind + 1) % 3 == 0).splice(1);
+    const rewards = values.sort((a, b) => a.total - b.total).filter((obj, ind) => (ind + 1) % 3 == 0).splice(1);
+    return rewards.map((obj, ind) => {
+        return {...obj, mask: mask[ind]}
+    })
 }
 
 const createBankerRewards = () => {
@@ -57,7 +60,8 @@ const gameInitalState = {
     openedCases: [],
     infoText: 'Please Select Your Case',
     currentRound: 0,
-    bankerPhase: false
+    bankerPhase: false,
+    highestOffer: 0
 }
 
 const game = Reducer(gameInitalState, {
@@ -68,6 +72,7 @@ const game = Reducer(gameInitalState, {
     'SHOW_BANKER_MODAL': (state, action) => ({ ...state, bankerPhase: action.payload }),
     'HIDE_BANKER_MODAL': (state, action) => ({ ...state, bankerPhase: false }),
     'SET_BANKER_OFFER': (state, action) => ({ ...state, bankerPhase: action.payload }),
+    'SET_HIGHEST_OFFER': (state, action) => ({...state, highestOffer: action.payload}),
     'GAME_RESET': (state, action) => ({ ...gameInitalState }),
 })
 
@@ -79,6 +84,7 @@ export const getCurrentRound = state => state.game.currentRound
 export const getInfoText = state => state.game.infoText
 export const getBankerPhase = state => state.game.bankerPhase
 export const getBankerOffer = state => state.game.bankerPhase.bankerOffer
+export const getHighestOffer = state => state.game.highestOffer
 export default combineReducers({
     game
 })
