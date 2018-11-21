@@ -220,15 +220,7 @@ body {
 }
 
 .bankerPhase-container {
-    width: 40vw;
-    height: auto;
-    border-radius: 10px;
-    padding: 2%;
-    background-color: black;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    border: $yellow-border;
+    @extend .modal-base;
 
     .hbar {
         width: 100%;
@@ -303,6 +295,10 @@ body {
     }
 }
 
+.rewards-container {
+    @extend .modal-base;
+}
+
 ////Utils////
 //Width
 .width-50 {
@@ -355,6 +351,17 @@ body {
     left: 50%;
     transform: translate(-50%, -25%);
     @extend .position-ab;
+}
+.modal-base {
+    width: 40vw;
+    height: auto;
+    border-radius: 10px;
+    padding: 2%;
+    background-color: black;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    border: $yellow-border;
 }
 
 //Custom Component Styles

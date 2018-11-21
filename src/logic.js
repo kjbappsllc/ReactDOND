@@ -75,7 +75,7 @@ const bankerCallLogic = createLogic({
                 dispatch({ type: 'SET_HIGHEST_OFFER', payload: bankOffer })
             }
             done()
-        }, 2000)
+        }, 100)
     }
 })
 
@@ -99,12 +99,18 @@ const bankerOfferDecisionLogic = createLogic({
 const showRewardsLogic = createLogic({
     type: 'SHOW_REWARDS',
     process({ getState, action }, dispatch, done) {
-        console.log("Attempting to show rewards")
+        const rewardString = ''
+        if(typeof action.payload === 'object') {
+            _.forEach(action.payload, (val) => {
+                console.log("------- ",val)
+            })
+        }
     }
 })
 
 export default [
     caseClickedLogic,
     bankerCallLogic,
-    bankerOfferDecisionLogic
+    bankerOfferDecisionLogic,
+    showRewardsLogic
 ]
