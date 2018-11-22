@@ -18,16 +18,16 @@ const createInitialRewards = () => {
     const permutations = combos({
         dinner: [{ location: ["Aldo", "Bosco", "Bahama Breeze", "Majestic Grille"], value: 70, description: "All inclusive dinner" },
         { location: ["Ciao Bella", "Buckley's", "The Beauty Shop", "Ecco"], value: 90, description: "All inclusive dinner" },
-        { location: ["Flight", "Catherine and Mary's", "Char", "Southern Social"], value: 115, description: "All inclusive dinner" }],
+        { location: ["Flight", "Catherine and Mary's", "Char", "Southern Social", "Owen Brennan's"], value: 115, description: "All inclusive dinner" }],
         shopping: [{ location: ["Black Friday!"], value: 100, description: "$100 for Black Friday shopping! " },
-        { location: ["Black Friday!"], value: 200, description: "$200 for Black Friday shopping! " },
-        { location: ["Black Friday!"], value: 300, description: "$300 for Black Friday shopping!" }],
+        { location: ["anywhere where there is Black Friday!"], value: 200, description: "$200 for Black Friday shopping! " },
+        { location: ["anywhere where there is Black Friday!"], value: 300, description: "$300 for Black Friday shopping!" }],
         spa: [{ location: ["Relax Nail Spa"], value: 65, description: "'Basic Facial'" },
         { location: ["Relax Nail Spa"], value: 75, description: "Mani and Spa Pedi' with nail and toe polish and file" },
         { location: ["The Spa Midtown"], value: 115, description: "Herbal Fusion Massage' 60 minutes" }],
         gift: [{ location: ["Stores Near You"], value: 55, description: "Hair Package: Mielle Gummy Healthy Hair Adult Vitamins with shea moisture shampoo and conditioner set" },
-        { location: ["Amazon"], value: 60, description: "Kitchen Package:  NutriBullet NBR-1201 12-Piece High-Speed Blender/Mixer System, Gray (600 Watts)" },
-        { locaton: ["Amazon"], value: 100, description: "Feel Warm Package: Electric Heated Throw Blanket, Ceramic Space Heater" }]
+        { location: ["online at Amazon"], value: 70, description: "Feel Warm Package: Sunbeam Fleece Heated Electric Throw Blanket with PrimeStyle Lighted Controller, Garnet Red and andily Space Heater with Thermostat, 750W/1500W" },
+        { locaton: ["online at Amazon"], value: 100, description: "Kitchen Package: NutriBullet Pro - 13-Piece High-Speed Blender/Mixer System with Hardcover Recipe Book Included (900 Watts)" }]
     })
     const values = permutations.map((obj, ind) => {
         const total = _.sumBy(Object.values(obj), 'value')
@@ -50,22 +50,27 @@ const createBankerRewards = () => {
     const mediumSmall = [
         "Dinner at Pho Bin and the JBL Sounds Speaker 3",
         "Dinner at Babalu and a Citrine November Birthstone Necklace",
-        "Dinner at Belly Acres and Fujifilm Instax Mini 9 - Ice Blue Instant Camera"
+        "Dinner at Belly Acres and Fujifilm Instax Mini 9 - Ice Blue Instant Camera",
+        "HelloFresh subscriptions for 2 months"
     ]
     const medium = [
         "Go Pro Hero 2018",
         "PowerBeats 3 wireless Earphones",
-        "Clarisonic Mia Prima Sonic Cleansing Face Brush White and an Aerie Swimsuit: yellow with green flowers"
+        "Clarisonic Mia Prima Sonic Cleansing Face Brush White and an Aerie Swimsuit: yellow with green flowers",
+        "Dinner at Central and a spa basket which includes nail polish, face masks, and lotion"
     ]
     const mediumLarge = [
         "Dinner at Osaka and Apple Airpods",
         "Dinner at Casablanca and Ninja BL681A Mega Kitchen System, 16, Black",
-        "Dinner at Soul Fish Cafe with Spa Mani Pedi and Fujifilm Instax Mini 9 - Ice Blue Instant Camera"
+        "Dinner at Soul Fish Cafe with Spa Mani Pedi and Fujifilm Instax Mini 9 - Ice Blue Instant Camera",
+        "Dinner at Pho Bin with PowerBeats 3 wirless Earphones",
+        "Dinner at Aldo's with Pink addidas tennis shoes and Spa pedicure"
     ]
     const large = [
         "Dinner at Flight and Spa Mani Pedi with the Ninja BL681A Mega Kitchen System, 16, Black",
         "Dinner at the Beauty Shop and Spa Mani Pedi with Apple Airpods",
-        "Dinner at Owen Brennan's and Spa Mani Pedi with Clarisonic Mia Prima Sonic Cleansing Face Brush and JBL Sounds Speaker 3"
+        "Dinner at Owen Brennan's and Spa Mani Pedi with Clarisonic Mia Prima Sonic Cleansing Face Brush and JBL Sounds Speaker 3",
+        "Dinner at Buckley's with the Go Pro Hero 2018 and Spa Pedicure"
     ]
     return { small, mediumSmall, medium, mediumLarge, large }
 }
@@ -105,7 +110,8 @@ const game = Reducer(gameInitalState, {
     'SET_HIGHEST_OFFER': (state, action) => ({ ...state, highestOffer: action.payload }),
     'ADD_TO_PREVIOUS_OFFERS': (state, action) => ({ ...state, previousBankerOffers: [...state.previousBankerOffers, action.payload] }),
     'GAME_RESET': (state, action) => ({ ...gameInitalState }),
-    'SET_CHOSEN_REWARD': (state, action) => ({ ...state, chosenReward: action.payload })
+    'SET_CHOSEN_REWARD': (state, action) => ({ ...state, chosenReward: action.payload }),
+    'SET_GAME_OVER': (state, action) => ({ ...state, gameOver: true })
 })
 
 export const getUnopenedCases = state => _.filter(state.game.rewards, (obj) => !state.game.openedCases.includes(obj.uuid));
@@ -121,6 +127,7 @@ export const getHighestOffer = state => state.game.highestOffer
 export const getBankerOptions = state => state.game.bankerOptions
 export const getPreviousBankerOffers = state => state.game.previousBankerOffers
 export const getChosenReward = state => state.game.chosenReward
+export const getGameOver = state => state.game.gameOver
 export default combineReducers({
     game
 })

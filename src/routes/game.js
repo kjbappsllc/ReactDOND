@@ -10,7 +10,8 @@ import {
   getHighestOffer,
   getBankerRealOffer,
   getCurrentRound,
-  getChosenReward
+  getChosenReward,
+  getGameOver
 } from '../reducer';
 import { Modal } from '../common-components';
 
@@ -26,7 +27,9 @@ const SidePanelItem = ({ uuid, value, isOpened }) => (
 
 const CaseItem = ({ uuid, isOpened, isChosen, num, handleCaseClicked }) => (
   <div
-    className={`case ${isOpened && !isChosen ? 'opened' : isChosen ? 'chosen' : 'unopened'}`}
+    className={`case ${
+      isOpened && !isChosen ? 'opened' : isChosen ? 'chosen' : 'unopened'
+    }`}
     onClick={() => !isOpened && !isChosen && handleCaseClicked(uuid)}
   >
     <img src={require('../resources/images/briefcase.png')} />
@@ -142,7 +145,7 @@ const Game = ({ dispatch, history, rewards, ...props }) => {
                 <div className="decision">
                   <div
                     className="action-l"
-                    onClick={() => dispatch.handleAcceptBankerDeal()}
+                    onClick={() => dispatch.handleAcceptBankerDeal(realOffer)}
                   >
                     Deal
                   </div>
@@ -161,9 +164,15 @@ const Game = ({ dispatch, history, rewards, ...props }) => {
           </div>
         </div>
       </Modal>
-      <Modal isOpen={gameEnd}>
+      <Modal
+        isOpen={gameEnd}
+        onOverlayClick={() => dispatch.handleAfterGameOver(history)}
+      >
         <div className="rewards-container">
-          <div>{chosenReward}</div>
+          <div className="title">Happy Birthday</div>
+          <div className="subtitle">Your Gift:</div>
+          <div className="hr" />
+          <div className="content">{chosenReward}</div>
         </div>
       </Modal>
     </div>
@@ -180,16 +189,21 @@ const mapStateToProps = state => ({
   highestOffer: getHighestOffer(state),
   realOffer: getBankerRealOffer(state),
   currentRound: getCurrentRound(state),
-  chosenReward: getChosenReward(state)
+  chosenReward: getChosenReward(state),
+  gameEnd: getGameOver(state)
 });
 
 const mapDispatchToProps = dispatch => ({
   dispatch: {
     handleCaseClicked: c => dispatch({ type: 'CASE_CLICKED', payload: c }),
-    handleAcceptBankerDeal: () =>
-      dispatch({ type: 'BANKER_OFFER_DECISION', payload: 'DEAL' }),
+    handleAcceptBankerDeal: o =>
+      dispatch({ type: 'BANKER_OFFER_DECISION', payload: {type:'DEAL', offer: o }}),
     handleDeclineBankerDeal: () =>
-      dispatch({ type: 'BANKER_OFFER_DECISION', payload: 'NO_DEAL' })
+      dispatch({ type: 'BANKER_OFFER_DECISION', payload: {type:'NO_DEAL', offer: '' }}),
+    handleAfterGameOver: h => {
+      h.goBack();
+      dispatch({ type: 'GAME_RESET' });
+    }
   }
 });
 

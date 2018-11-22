@@ -220,12 +220,11 @@ body {
 }
 
 .bankerPhase-container {
+    width: 40vw;
     @extend .modal-base;
 
     .hbar {
-        width: 100%;
-        height: 2px;
-        margin-top: 5px;
+        @extend .hbar;
         background-color: white;
     }
 
@@ -297,6 +296,38 @@ body {
 
 .rewards-container {
     @extend .modal-base;
+    width: 60vw;
+    white-space: pre-line;
+
+    .title {
+        display: flex;
+        font-size: 1.5em;
+        font-family: $font-cursive;
+        justify-content: center;
+        color: orange;
+        padding: 2% 0;
+    }
+
+    .subtitle {
+        display:flex;
+        text-align: left;
+        font-size: 0.9em;
+        color: $yellow;
+    }
+
+    .content {
+        line-height: 3.5vh;
+        text-align: left;
+        display: flex;
+        font-size: 0.5em;
+        flex: 1;
+    }
+    
+    .hr {
+        @extend .hr;
+        background-color: yellow;
+        margin-bottom: 10px;
+    }
 }
 
 ////Utils////
@@ -353,7 +384,6 @@ body {
     @extend .position-ab;
 }
 .modal-base {
-    width: 40vw;
     height: auto;
     border-radius: 10px;
     padding: 2%;
@@ -362,6 +392,12 @@ body {
     display: flex;
     flex-direction: column;
     border: $yellow-border;
+}
+
+.hr {
+    width: 100%;
+    height: 2px;
+    margin-top: 5px;
 }
 
 //Custom Component Styles
