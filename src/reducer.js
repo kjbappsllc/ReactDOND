@@ -16,7 +16,7 @@ const createInitialRewards = () => {
     }
 
     const permutations = combos({
-        dinner: [{ location: ["Aldo", "Bosco", "Bahama Breeze", "Majestic Grille"], value: 70, description: "All inclusive dinner" },
+        dinner: [{ location: ["Aldo", "Bosco", "Bahama Breeze", "Majestic Grille", "Fridas"], value: 70, description: "All inclusive dinner" },
         { location: ["Ciao Bella", "Buckley's", "The Beauty Shop", "Ecco"], value: 90, description: "All inclusive dinner" },
         { location: ["Flight", "Catherine and Mary's", "Char", "Southern Social", "Owen Brennan's"], value: 115, description: "All inclusive dinner" }],
         shopping: [{ location: ["Black Friday!"], value: 100, description: "$100 for Black Friday shopping! " },
@@ -43,25 +43,29 @@ const createInitialRewards = () => {
 const createBankerRewards = () => {
     const small = [
         "Dinner at Gus's chicken and a rose",
-        "Dinner at Huey's and flowers",
-        "Dinner at Las Delicias and a rose",
-        "Dinner at Uncle Lou's with a rose"
+        "Dinner at Huey's and Ultrasonic Essential Oil Deffuser",
+        "Dinner at Frida's with face masks",
+        "Dinner at Las Delicias and the Echo Auto",
+        "Dinner at Uncle Lou's with a rose",
+        "Dinner at Cordova Catfish with 'Good Housekeeping Cookbook"
     ]
     const mediumSmall = [
         "Dinner at Pho Bin and the JBL Sounds Speaker 3",
         "Dinner at Babalu and a Citrine November Birthstone Necklace",
         "Dinner at Belly Acres and Fujifilm Instax Mini 9 - Ice Blue Instant Camera",
-        "HelloFresh subscriptions for 2 months"
+        "Dinner at Frida's HelloFresh subscriptions for 2 months"
     ]
     const medium = [
         "Go Pro Hero 2018",
         "PowerBeats 3 wireless Earphones",
         "Clarisonic Mia Prima Sonic Cleansing Face Brush White and an Aerie Swimsuit: yellow with green flowers",
-        "Dinner at Central and a spa basket which includes nail polish, face masks, and lotion"
+        "Dinner at Central and a spa basket which includes nail polish, face masks, and lotion",
+        "Dinner at Bosco's with the Clarisonic Sonic Awakening Eye Massager"
     ]
     const mediumLarge = [
         "Dinner at Osaka and Apple Airpods",
         "Dinner at Casablanca and Ninja BL681A Mega Kitchen System, 16, Black",
+        "Dinner at Majestic Grille with the Fitbit charge 3 Fitness Tracker",
         "Dinner at Soul Fish Cafe with Spa Mani Pedi and Fujifilm Instax Mini 9 - Ice Blue Instant Camera",
         "Dinner at Pho Bin with PowerBeats 3 wirless Earphones",
         "Dinner at Aldo's with Pink addidas tennis shoes and Spa pedicure"

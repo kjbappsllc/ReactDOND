@@ -18,22 +18,66 @@ html {
 }
 
 body {
-    background-image: 
-    linear-gradient(
-      rgba(0, 0, 0, 0.65), 
-      rgba(0, 0, 0, 0.65)
-    ),
-    url('../resources/images/dond_bg.jpg');
-    background-size: cover;
     height: 100%;
 }
+//Home css
+.home-container {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-image: url('../resources/images/home-bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: black;
+    @extend .fill-parent;
+    @extend .position-rel;
+}
 
+.home-btn-start {
+    bottom: 25%;
+    cursor: pointer;
+    background-color: $yellow;
+    border-radius: 5px;
+    width: 15%;
+    padding: 10px 0px;
+    color: black;
+    border-color: black;
+    border-width: 5px;
+    border-style: solid;
+    text-align: center;
+    @extend .position-ab
+}
+
+.home-btn-start:hover {
+    background-color: yellow;
+}
+
+.home-title {
+    color: $yellow;
+    font-family: $font-cursive;
+    padding: 1%;
+    background-color: black;
+    border: $yellow-border;
+    font-size: 1.1em;
+    bottom: 0;
+    @extend .position-ab;
+}
 //Game css
 .game-base {
     justify-content: center;
     flex-direction: column;
     display: flex;
     padding: 8vh 8vw;
+    background-image: 
+    linear-gradient(
+      rgba(0, 0, 0, 0.45), 
+      rgba(0, 0, 0, 0.45)
+    ),
+    url('../resources/images/dond_bg.jpg');
+    background-size: cover;
     @extend .fill-parent;
 }
 
