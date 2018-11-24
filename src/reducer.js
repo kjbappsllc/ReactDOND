@@ -27,7 +27,7 @@ const createInitialRewards = () => {
         { location: ["The Spa Midtown"], value: 115, description: "Herbal Fusion Massage' 60 minutes" }],
         gift: [{ location: ["Stores Near You"], value: 55, description: "Hair Package: Mielle Gummy Healthy Hair Adult Vitamins with shea moisture shampoo and conditioner set" },
         { location: ["online at Amazon"], value: 70, description: "Feel Warm Package: Sunbeam Fleece Heated Electric Throw Blanket with PrimeStyle Lighted Controller, Garnet Red and andily Space Heater with Thermostat, 750W/1500W" },
-        { locaton: ["online at Amazon"], value: 100, description: "Kitchen Package: NutriBullet Pro - 13-Piece High-Speed Blender/Mixer System with Hardcover Recipe Book Included (900 Watts)" }]
+        { locaton: ["online at Amazon"], value: 100, description: "Kitchen Package: NutriBullet Pro - 13-Piece High-Speed Blender/Mixer System with Hardcover Recipe Book Included (900 Watts) and Brieftons QuickPush Food Chopper: Strongest & 200% More Container Capacity, 30% Heavier Duty, Onion Chopper, Kitchen Vegetable Dicer, Fruit and Cheese Cutter, with 3 Dicing Blades & Keep-Fresh Lid" }]
     })
     const values = permutations.map((obj, ind) => {
         const total = _.sumBy(Object.values(obj), 'value')

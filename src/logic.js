@@ -107,7 +107,7 @@ const bankerCallLogic = createLogic({
         dispatch({ type: 'SET_HIGHEST_OFFER', payload: bankOffer });
       }
       done();
-    }, 100);
+    }, 3000);
   }
 });
 
