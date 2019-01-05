@@ -37,7 +37,7 @@
     "url-loader": "^1.1.2",
     "webpack": "^4.25.1",
     "webpack-cli": "^3.1.2",
-    "webpack-dev-server": "^3.1.10",
+    "webpack-dev-server": "^3.1.14",
     "webpack-fix-style-only-entries": "0.0.4",
     "webpack-md5-hash": "0.0.6"
   }
